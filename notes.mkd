@@ -1,0 +1,421 @@
+CS241
+===
+
+Procedure|Description|Techniques|Example
+---|---|---|---
+scanning|Process input data, translating input into valid tokens.|Input is processed, treating each character is an input transition in a DFA. The input is processed in linear time. Maximal Munch is used to identify the longest string of characters for one valid token.|(int a) is recognized as LPAREN INT ID RPAREN
+parsing|Translates valid tokens into a tree.|A set of valid transitions are defined for the language. Every token is treated as input to the tree. The tree is traversed, which provides a derivation for the input.|
+semantic analysis|
+optimization|
+code generation|
+linking|
+
+### Memory Control
+
+Things to consider for runtime memory management: initialization (init), allocation (new), reclamation (delete)
+
+Four dimensions of heap allocation:
+
+1. Fixed or variable block sizes
+1. Implicit or explicit allocation
+1. Implicit or explicit reclamation
+1. Language/implementation; e.g. can pointers be reallocated?
+
+### Memory Allocation
+
+There are three general heuristics for variable-sized memory allocation. Because allocation/deallocation sequences cannot be predicted, there is no one consistently better heuristic.
+
+**Best-fit** allocates memory to the smallest fitting space. **First-fit** allocates memory to the first available free space of sufficient size, which takes the least amount of time to calculate. **Worst-fit** allocated memory to the largest fitting space, maintaining free spaces of similar sizes; this is good when the size of the allocation is usually similar.
+
+Scenario where worst-fit is preferable: consider a chunk of memory with consecutive available spaces [20, 40] and a queue of allocations of size [10, 30, 20]. Best- and first-fit heuristics would fail to successfully perform all three allocations, where worst-fit would succeed.
+
+SE212
+===
+
+### Predicate Logic
+
+```
+forall x . P(f(x), x) |= forall x . exists y . P(y, x)
+1. forall x . P(f(x), x)			% premise
+2. for every xg {
+	3. P(f(xg), xg) 				% by forall_e on 1
+	4. exists y . P(y, xg)			% by exists_i on 3
+	}
+5. forall x . exists y . P(y, x)	% by forall_i on 2-4
+```
+
+```
+forall x . exists y . P(y, x) |/= forall x . P(f(x), x)
+
+Domain: { 0, 1 }
+
+Syntax	| Semantics
+--------|-----------
+P(x,y)	| P(0,0) = true
+		| P(0,1) = false
+		| P(1,0) = false
+		| P(1,1) = true
+--------|-----------
+f		| f(0) = 1
+		| f(1) = 0
+		
+LHS is valid:
+= M[forall x . exists y . P(y,x)]
+= M[exists y . P(y,_0) ] AND M[ exists y . P(y,_1)]
+= (M[P(0,0)] OR M[P(1,0)]) AND (M[P(1,1)] OR M[P(1,1)])
+= (T OR F) AND (F OR T)
+= T
+
+RHS is invalid:
+= M[forall x . P(f(x),x)]
+= M[P(f(0),0)] AND M[P(f(1),1)]
+= M[P(1,0)] AND M[P(0,1)]
+= M[P(1,0)] AND M[P(0,1)]
+= F AND F
+= F
+```
+
+### Semantics
+
+You can pull the meaning of an expression out of M[] immediately. Use T and F vs. true and false. Bracket all conjunctions. 
+
+### Set Theory
+
+F maps D to R.
+
+```
+dom(F) == D
+ran(F) == R
+Domain restrict to d: d <| F
+Range restrict to r: F |> r
+```
+
+* To prove nothing in a set satisfies a property, equate the intersection of the set and the set of the property is empty
+* To prove everything in a set satisfies a property, show the set is equal to or a subset of the set of the property
+
+### Z Specification
+
+Types
+
+```
+[ Set1, Set2, Set3 ]			% list all sets
+Errors ::= Error1 | Error2		% list all errors
+```
+
+Constants
+
+```
+-----Constants-----
+Con1: Set1						% an element of a set
+Con2: P(Set1)					% subset of a defined set
+Con3: N							% belongs to a generic set
+Fun1: Set1 >-|->> Set2			% relation between two sets
+-------------------
+card(Con2) == s					% define the size of a constant set
+Con3 == n						% define the value of a constant
+```
+
+System State
+
+```
+-----SystemName-----
+% same thing as constants, but define things in the system that may change
+% define variable names, properties of the variables
+--------------------
+```
+
+Initial State
+
+```
+-----InitialSystemName-----
+SystemName
+---------------------------
+% for all variables in the system state, define their initial values
+```
+
+Operations
+
+```
+-----DeltaOpName-----
+Delta SystemName				% define the system
+In?: Set1						% an input and the set it belongs to
+Loc: Set2						% a local variable
+---------------------
+% add optional predicates that describe the local variables and/or inputs
+In? isin Set2
+Set1' == Set1 (+) {In?}			% describe the change
+Set2' == Set2					% even non-changes must be described
+Set3' == Set3
+```
+
+```
+-----XiOpName-----
+Xi SystemName
+Out!: Set1						% an output and the set it belongs to
+------------------
+% add optional predicates that describe the local variables and/or inputs
+Out! == 1						% set the output
+% there is no need to describe non-changes
+```
+
+Exceptions
+
+```
+-----ExceptionName----
+% exception name must match an error in Types
+Xi SystemName					% all exceptions are Xi operations
+In?: Set1						% some input
+Err!: Errors					% error is an output and belongs to Errors
+----------------------
+% define all predicates that must be true for error to occur
+% predicates depend on the inputs
+error! == Error1				% error must be equal to a specified Error
+```
+
+### Program Correctness
+
+When using the function rule, write out the lemma that is proven using the function rule.
+
+```
+fun f(i) {
+	var ret
+	assert(i >=0)					% pre
+	if (i == 0) {
+		ret := B[0]
+	} else { 
+		ret := B[i] + f(i - 1)
+	}
+	assert(ret == sum 0:1 B[k])		% post
+	return ret
+}
+```
+```
+fun f(i) {
+	var ret
+	1. assert(i >= 0)									% pre
+	if (i == 0) {
+		2. assert(i >= 0 && i == 0)
+		3. assert(B[0] == sum k=0:i B[k])				% VC 1
+		ret := B[0]
+		2. assert(ret == sum k=0:i B[k])				% asn
+	} else { 
+		2. assert(i >= 0 && i != 0)
+		3. assert(B[i] + f(i - 1) == sum k=0:i B[k]) 	% VC 2
+		ret := B[i] + f(i - 1)
+		2. assert(ret == sum k=0:i B[k])				% asn
+	}
+	1. assert(ret == sum k=0:i B[k])					% post
+	return ret
+}
+
+VC 1:
+i >= 0 & i == 0 |= B[0] == sum k=0:i B[k]
+1. i >= 0 & i == 0			% premise
+2. i == 0 					% by and_e on 1
+3. B[0] == sum k=0:i B[k]	% by def of sum
+
+VC 2:
+i >= 0 & i != 0 |= B[i] + f(i - 1) == sum k=0:i B[k]
+1. i >= 0 & i != 0				% premise
+2. i >= 0 						% by and_e on 1
+3. i != 0 						% by and_e on 1
+4. i - 1 >= 0 => f(i - 1) == sum k=0:i-1 B[k]	% function rule
+5. i - 1 >= 0 					% arith on 2, 3
+6. f(i - 1) == sum k=0:i-1 B[k] % imp_e on 4, 5
+7. B[i] + f(i - 1) == B[i] + sum k=0:i-1 B[k] % arith
+8. B[i] + f(i - 1) == sum k=0:i B[k] % by def of sum
+```
+
+**Function Rule**
+
+Given:
+
+```
+fun f(i) {
+	assert(i >= 0)
+	... body ...
+	assert(ret == sum 0:1 B[k])
+}
+```
+
+The function rule tells us:
+
+```
+(i >= 0 => ret == sum 0:i B[k]) [a/i, f(a)/ret]
+```
+
+**If-Then-Else Rule**
+
+Given:
+```
+assert(P)
+if B { C1 }
+else { C2 }
+assert(Q)
+```
+
+The if-then-else rule tells us:
+```
+1. assert(P)
+if B {
+	assert(P & B)
+	C1
+	assert(Q)
+	}
+else {
+	assert(P & !B)
+	C2
+	assert(Q)
+	}
+1. assert(Q) 			% if-then-else
+```
+
+### Incorrectness
+
+To prove a program is incorrect, provide the initial state (all variables), final state, demonstrate the precondition is satisfied, and demonstrate the postcondition is not satisfied. Trace the program to determine the final state; steps are not necessary.
+
+```
+assert(true)
+a := x + 1
+if (a - 1 == 0) {
+	y := 1
+} else {
+	y: a + 1
+}
+assert(y == x + 1)
+```
+
+EARTH121
+===
+
+### Chapter 10: Earthquakes
+
+**Earthquake**: vibrations caused by rapid release of energy in the earth, such as slippage along faults in the crust. The vibrations emit from the **hypocentre**. The **epicentre** or focus is the point on the earth's surface located directly above the hypocentre. Faults vibrating while reaching an equilibrium is referred to as **elastic rebound**. Earthquakes are usually continuous - when stress is release, it usually begins immediately accumulating again. 95% of earthquakes in the world originate from a few narrow zones that circle the globe, known as **earthquake belts**.
+
+Adjustments in the earth's surface may follow a major earthquake. They are referred to as **aftershocks**. They are often weaker but can still be destructive. **Foreshocks** can occur preceding an earthquake, even by years. They can predict major earthquakes with mixed success.
+
+**Seismology** is the study of earthquake waves. **Seismographs** record seismic waves using a mass that is freely suspended in the ground. The mass remains relatively idle while its support and the earth move in an earthquake. The relative motion is recorded as a **seismogram** on a rotating bar.
+
+Waves travelling in the earth's interior are known as **body waves** while those on the exterior are **surface waves**. Surface waves are slower than any other, but are confined to narrow spaces, retaining its maximum amplitude for longer. Body waves either compress and expand rocks in the direction they travel (**P waves**) or perpendicularly (**S waves**). S waves are roughly twice as slow as P waves. The arrival time of waves on a seismogram helps describe an earthquake.
+
+Earthquake **intensity** measures the degree of damage done, while **magnitude** estimates the amount of energy released. Both are useful. The **Modified Mercalli Intensity Scale** uses Californian buildings as a standard and classifies earthquakes into ranks based on qualitative descriptions. The **Richter Scale** classifies earthquakes based on wave amplitudes, accounting for amplitude falloff due to distance travelled. Levels less than 2.0 are not felt by humans. Each integer level represents a 32-time increase in amplitude. **Moment magnitude** is even more precise than the Richter Scale and takes into account more factors.
+
+Water-saturated areas can turn into a mobile fluid after an earthquake through **liquefaction**. Buildings may lose support from the ground and collapse this way. Vertical displacement can also cause large waves in water called **tsunamis**. 
+
+Page 261
+
+### Chapter 14: Mass Wasting
+
+**Mass wasting** is a process where rock, soil, etc. are pulled into a downward slope by gravity. Unlike erosion, it does not require a medium to be carried by. Mass wasting contributes to sculpting the earth's surface. Processes build up to cause land to become less stable when finally a **trigger** causes the mass wasting to occur. The weight of water, liquefaction, earthquakes, can all be considered triggers. The steepest angle at which a material can remain stable is the **angle of repose**. Plant roots can be considered an anchor that helps stabilize soil.
+
+Mass wasting is classified by motion. A **fall** is a detached particle falling through air. A **slide** occurs where material moved downward along a well defined surface. A **flow** occurs when material moves as a viscous fluid. Mass wasting is also classified by material. Loose materials are referred to as **rocks**, whereas **debris** or earth refers to material dominated by soil or regolith.
+
+**Slumps** can occur when earth rolls along an upward-concave curvature called a **surface of rupture**. Earth rotates to create vertical rifts called **scarps**, and excess earth runs off at the bottom of the slump as **earthflow**.
+
+Page 339
+
+### Chapter 15: Running Water & Hydrologic Cycle
+
+The **hydrologic** cycle is the unending circulation of earth's water supply. Water evaporates into the atmosphere by heat. It is moved by winds and eventually condenses into precipitation. Water re-enters the ground through **infiltration**. When the rate of infiltration exceeds the earth's ability to absorb it, known as the **infiltration capacity**, the remaining water flows over the surface in a process known as **runoff**. Water can also be absorbed by plants through **transpiration**. The combined effect of this and evaporation is **evapotranspiration**.
+
+Saturated soil can commence **sheet flow**, thin and unconfined water flowing over the ground. This can cause small currents known as **rills**, which accumulate into **streams** and then **currents**. Water in streams originates from the **headwaters** to its **mouth**, where it empties to another body of water. The water follows a well-defined **course**. Any given segment in the course is a **reach**, any loops or snakes are called **meanders**. The bottom of the stream is the **bed**, bounded on either side by a **bank**. Under flood conditions, water can submerge its banks, resulting in a **floodplain**.
+
+Water can either flow as a **laminar flow**, parallel to the channel, or as a **turbulent flow**, where water moves erratically. Stream velocity is maximized where there is least friction, which is the centre of the stream, slightly below the surface of the water. Velocity affects a steam's ability to erode, which is directly related to its velocity. Irregularities in the water cause **rapids**. Water flow is measured by the quantity moved through a point in a given time, or its **discharge**.
+
+When particles are carried in a stream, they can cause erosion through friction. **Potholes** are created when particles move in drill-like motions due to circular stream movements called **eddies**. Streams can transport sediment as a solution through **dissolved load**. Sediments in solution go wherever the stream goes. Sediments can also be carried by suspension in **suspended load**. **Settling velocity** defines the speed a particle falls in a suspended load stream. Slower velocities allow the stream to carry the sediments farther. Lastly, sediments can be dragged along the bottom of the channel (**bed load**). A sediment is said to move by **saltation** if it appears to jump or skip along the stream.
+
+The limit to quantity of particles moved by a stream per time is its **capacity**. Its **competence** is the largest-sized particle the stream can move based on its velocity. Competence is reduced as a stream's velocity slows. Therefore, particles settle sequentially based on size in a process called **sorting**. The deposit is known as **alluvium** and is mainly sand and gravel, known as **bars**. Sediments can be deposited as isolated mounds called **intrachannel bars** or as crescent-shaped buildups of sediment called **point bars**.
+
+Page 359
+
+### Chapter 16: Groundwater
+
+Page 379
+
+### Chapter 17: Glaciers and Glaciation
+
+Page 402
+
+### Chapter 20: Mineral and Energy Resources
+
+**Resources** are the endowment of materials held in a reserve that are useful to people. **Renewable resources** can be replenished over relatively short times (months to decades), such as plants, animals, trees, water, wind. **Non-renewable** resources may take millions of years to accumulate. **Reserves** are known deposits from which minerals and fuel materials can be extracted profitably. Metallic minerals that can be mined at profit are known as **ores**, while other non-metallic minerals used for industrial purposes are classified as **industrial minerals**.
+
+Characteristics of magma are responsible for mineral deposits. Through **gravitational settling**, economically important minerals are concentrated in the bottom of a magmatic body due to it settling in the early stages of crystallization. They can also be separated through non-mixing of liquid phases called **immiscibility** (e.g. water and oil).
+
+Page 465
+
+ECE222
+===
+
+### Memory
+
+Type|Volatile|Write|Erase|Comment
+---|---|---|---|---
+ROM|no|no|-|programmed at foundry
+Programmable ROM|no|once|-|ROM but written once; mobile phones
+Erasable PROM|no|yes|all|PROM but can write several times; erases through UV light
+Electrically EPROM|no|yes|byte|EPROM but uses varying voltages to read, write, erase
+Flash|no|yes|block|EEPROM but cheaper and erased in blocks; USB
+Static RAM|yes|yes|byte|large but expensive; used for cache
+Dynamic RAM|yes|yes|byte|SRAM but smaller, slower, cheaper; used for main memory
+Synchronous DRAM|
+Double Data Rate SDRAM|yes|||two banks of striped data timed to different clock cycles. Data is transferred on rising AND falling edges
+
+**Fast Page Mode**: an additional latch stores an entire row of memory. If multiple addresses come from the same row, the row only needs to be selected once.
+
+Consider `d x w` bit memory. It uses a `log2(d) x d` decoder to turn `log2(d)` address lines into one of `d` addresses. Each address holds `w` bits of data. All `w` bits of the selected address are returned.
+
+If the same memory chip is used with a symmetric array of bit cells, we have an array size `s = sqrt(d * w)`. It uses a `log2(s) x s` decoder to turn `log2(s)` address lines into one of `s` addresses, each holding `s` bits of data. These `s` bits represent `s / w` sets of `w-bit` data, which are selected using a `s / w : 1` mux.
+
+### Cache
+### Processor Design
+### Pipelining
+
+Five stages of pipelining:
+
+Instruction|Description
+---|---
+Fetch|recognize the instruction to execute
+Decode|recognize the value in any register necessary
+Compute|perform arithmetic computation
+Write|write the value to the destination register
+
+Arithmetic example: `ADD r3, r1, r2 ; r1 = 1, r2 = 2`
+
+Instruction|RTN|Example
+---|---|---
+Fetch|`MAR <- PC` `read memory` `IR <- memory` `PC <- [PC] + 4`| `ADD`
+Decode|`RA <- [r1]` `RB <- [r2]`|`r1 = 1` `r2 = 2`
+Compute|`RZ <- [RA] + [RB]`|`1 + 2`
+Memory|`RY <- [RZ]`| `-`
+Write|`r3 <- [RY]`|`3 -> r3`
+
+Load example: `LDR r1, [r0, #4]`
+
+Instruction|RTN|Example
+---|---|---
+Fetch|`MAR <- PC` `read memory` `IR <- memory` `PC <- [PC] + 4`| `LDR`
+Decode|`RA <- [r0]`|`r0 = 1`
+Compute|`RZ <- [RA] + 4`|
+Memory|`MAR <- [RZ]` `read memory` `RY <- [MDR]`|
+Write|`r1 <- [RY]`|
+
+
+### Arithmetic
+
+CHEM102
+===
+
+### Henry's Law, Raoult's Law
+### Phase Diagrams
+### Colligative Properties
+### Chemical Equilibrium
+### Solubility
+### Galvanic Cells, Nernst Equation
+### Electrolysis
+### Differential/Integrated Rate Law
+### Arrhenius Equation
+### Reaction Mechanism
+
+STAT206
+===
