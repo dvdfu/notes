@@ -226,7 +226,7 @@ i >= 0 & i != 0 |= B[i] + f(i - 1) == sum k=0:i B[k]
 8. B[i] + f(i - 1) == sum k=0:i B[k] % by def of sum
 ```
 
-**Function Rule**
+### Function Rule
 
 Given:
 
@@ -244,7 +244,7 @@ The function rule tells us:
 (i >= 0 => ret == sum 0:i B[k]) [a/i, f(a)/ret]
 ```
 
-**If-Then-Else Rule**
+### If-Then-Else Rule
 
 Given:
 ```
@@ -330,7 +330,17 @@ Page 359
 
 ### Chapter 16: Groundwater
 
-Page 379
+Groundwater is the drinking water for 50% of the population, is 40% of the water used for irrigation, and provides 25% of industry's needs. 94% of the world's liquid freshwater is groundwater and the largest reservoir of freshwater available to humans.
+
+Practically all underground water is introduced through infiltration after precipitation. Water held as moisture in soil is known as **soil water** in the **belt of soil moisture** and helps plants with transpiration. Water not held in soil seeps downward, passing a **zone of aeration** where water is less plentiful and clings tightly to rocks, making it unusable for pumping. After passing this zone, the water settles in the **zone of saturation** where it becomes **groundwater**. The upper limit of the zone of saturation is called the **water table**.
+
+**Permeability** refers to a body's ability to transport water. This is dependent on its **pores** and how large or connected they are. Impermeable layers are known as **aquitards**, and layers that allow flow are known as **aquifers**. The speed of flow in groundwater is exceedingly slow (several centimetres a day). The flow is greater where the slope of the water table, or the **hydraulic gradient**, is steeper. Flow is also affected by the permeability, which is represented as a constant known as **hydraulic conductivity**.
+
+If an aquitard intersect downward movement of water, it creates a **perched water table**. If this also intersects with the ground surface, natural outflow of groundwater results into a **spring**. Water circulating a great depths may rise as warm water, known as a **hot spring**. **Geysers** are intermittent hot springs where water is ejected at great force.
+
+**Wells** are vertical holes bored into the zone of saturation. When water is drawn from a well, it lowers the surrounding water table, creating a conical depression in the water table known as the **cone of depression**. **Artesian wells** are wells where water flows freely to its surface, typically because pressurized groundwater rises above the aquifer.
+
+Page 389
 
 ### Chapter 17: Glaciers and Glaciation
 
