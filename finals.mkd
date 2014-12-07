@@ -21,7 +21,21 @@ Four dimensions of heap allocation:
 1. Implicit or explicit reclamation
 1. Language/implementation; e.g. can pointers be reallocated?
 
-### Memory Allocation
+### Static Allocation
+
+Variables that are never moved are stored using **static allocation**. Because they never move, they can be referenced using a constant offset from a fixed memory address. For example, a programming language with no procedures and no allocations aside from its initial variable declarations can use static allocation to manage its variables.
+
+### Stack Allocation
+
+
+
+### Heap Allocation: Fixed-Size Blocks
+
+With **fixed-size** memory allocation, memory is divided into blocks of equal size. This removes some overhead and external fragmentation and is good for programs that do no allocate large amounts of contiguous data, but causes a lot of **internal fragmentation**. It uses a **singly-linked list** to keep track of the most recently deallocated blocks of memory, so each deallocated block contains a pointer in its header to the next free block. This way, free space can be retrieved in constant time.
+
+### Heap Allocation: Variable-Sized Blocks
+
+**Variable-sized** uses blocks of varying size to manage memory. Internal fragmentation is dramatically reduced, although this implementation introduces **external fragmentation** and more overhead. Unlike fixed-size, which can find free space using the top of its free stack, variable-sized block allocation must search for usable space. Its free list is a **doubly-linked list**, and finds space using one of the three heuristics below. In addition, variable-sized memory allocation must worry about **merging** adjacent free space whenever it performs a deallocation, and **compacting** allocated memory when free space is nearly gone.
 
 There are three general heuristics for variable-sized memory allocation. Because allocation/deallocation sequences cannot be predicted, there is no one consistently better heuristic.
 
