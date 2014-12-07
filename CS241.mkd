@@ -1,0 +1,86 @@
+Binary Expressions
+---
+
+**E**: expression, **B**: binary, **D**: digit
+
+Words are composed of binary numbers (no leading zeroes, other than 0) with + or - signs in **infix** notation.
+
+> Example: 1001, 10 + 1, 11 - 111110 + 0
+
+Use right recursion for right associativity and left recursion for left associativity. 
+
+Nodes that are closer to the root have lower precedence and are evaluated later. To conform closer to BEDMAS, we will force addition and subtraction to be closer to the root than multiplication or division.
+
+**S**: sum, **P**: product
+
+1. S &rarr; S + P
+1. S &rarr; S - P
+1. S &rarr; P
+1. S &rarr; P * B
+1. S &rarr; P / B
+1. S &rarr; B
+1. B &rarr; 0
+
+> Example: 11 + 100 * 110 + 10
+
+Assignment to Pointer Dereference
+---
+
+lvalue &rarr; STAR factor
+
+statement &rarr; lvalue BECOMES expr SEMI
+
+```
+code (statement)
+code (factor) // put address into $3
+add $6, $3, $0 // put $3 into some temp. reg.
+code (expr.)
+sw $3, 0($6)
+```
+
+Prologue: call init where $2 is the length of array.
+
+factor &rarr; NEW INT LBRACK expr RBRACK
+
+expr: create an array of certain size. Put size into $1. Call new. If new is 0, the value is NULL (put it in $3); otherwise it is the base address of the array.
+
+statement &rarr; DELETE LBRACK RBRACK expr SEMI
+
+First check that the delete value is not NULL. Call delete with value (base address) in $1.
+
+Pointer Arithmetic
+---
+
+INT PLUS INT: do A9 stuff
+
+INT* PLUS INT: store adr(INT\*) + 4 x INT
+
+Comparison of Pointers
+---
+
+Use sltu to compare int* values (int is pointless since there are no negative addresses).
+
+Procedures
+---
+
+Each procedure should have its own prologue and epilogue. In wain we import print, new, delete, etc.
+
+Each procedure should worry about $29, saving/restoring registers, and returning to the caller (jr $31).
+
+Runtime Memory Management
+---
+
+Three components to memory management: **initialization**, **allocation**, **reclamation**. A stack is initialized by the OS, allocated with push, and reclaimed by pop. Allocation and reclamation can be interleaved.
+
+In CS241, we describe the **heap** as the memory available for dynamic allocation. Note: in other contexts it may describe a height balanced binary tree.
+
+Maintain a free list by putting the newest block at the front. This keeps a stack where allocation and reclamation are constant operations.
+
+```
+if freelist != empty
+	give first block from freelist and pop
+if cur != finish
+	give cur + update
+else
+	ERROR: out of memory
+```

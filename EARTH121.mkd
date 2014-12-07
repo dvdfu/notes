@@ -1,0 +1,105 @@
+Earthquakes
+===
+**Earthquakes** are the sudden movement of rock on opposite sides of a fault. When the stress is greater than the strength of the rock, a rupture occurs. This releases what has accumulated within the rocks.
+
+A **fault** or **fracture** refers to movement of one side of a fault moving relatively to the other. **Seismic** relates to vibration of the earth, natural or otherwise.
+
+Earthquakes in the hydrosphere lifts the water above the plate. The water drops and propagates in all directions. This contrasts with waves caused by hurricanes, which are unidirectional
+	
+### Vibrations
+
+The waves of an earthquake origin from the **hypocenter**. The area on the earth's surface directly above the hypocenter is known as the **epicenter**. The vibrations emitting from the hypocenter are either:
+
+**Primary**: compression waves that propagate through solids and liquids
+**Secondary**: slower, shear waves that only propagate through solids
+
+### Measurement
+
+Seismic waves are measured by seismographs through a specific process:
+
+1. A weight is suspended underground in a containing drum
+1. The drum is anchored to bedrock and affected by tremors, which causes the weight to draw a graph according to the tremor amplitude
+1. The difference in tremor amplitude and time from three seismographs can locate the origin of an earthquake
+
+Earthquake **intensity** refers to the observed effect, while the **magnitude** is a qualitative measurement of the earthquake amplitude.
+
+The **Richter scale** interpolates data based on the P and S waves; it is inaccurate and empirical. A more accurate measurement is the **moment magnitude**, which calculates magnitude based on quantities from the earthquake's area, slippage, and rigidity. Even if two faults have the same area, a deep (but thin) fault will release much more energy.
+
+Midterm Review
+===
+
+**Geology** is the study of earth on all spatial and time scales, including landforms, structure, and rock composition.
+
+These are big ideas that all citizens should know to be "earth science literate":
+
+* the **age** of the earth
+* the earth is continuously **changing**
+* **water** is incredibly important for **life**
+* the earth is analyzed through the **scientific method** and **systems approach**
+* humans depend on the earth for **resources**
+* humans are affected by the **hazards** of earth
+* humans have a great ability to **alter** the earth
+
+An "earth science literate" person should:
+
+* understand the fundamental concepts of earth's systems
+* know how to find out credible info about the earth
+* communicate about earth science in a meaningful way
+* be able to make informed and responsible decisions regarding earth and its resources
+
+### Plate Tectonics
+
+**Continental drift** refers to the movement of the earth's landforms. The current layout of earth's landforms derived from a previously contiguous super-continent known as Pangaea. 
+
+### Rocks
+
+The light/darkness of a rock is determined by the colours of the minerals in its composition. The texture of rock (coarseness, fineness, porousness, etc.) are also affected by its composition.
+
+* **Igneous**
+* **Sedimentary**
+	* any rock can be eroded and weathered into **sediments** and transported due to environmental effects
+	* sediments can be derived biologically through living things or secretions
+	* they can be created into a variety of **sedimentary rocks** such as gravel, sand, silt, clay, mud, etc.
+	* the size or fineness of these sediments describe how coarse or fine the new rock will be
+* **Metamorphic**
+	* high temperature or pressure can transform the properties of a rock
+
+### Geologic Scale
+**Radioactive decay** can be used to accurately describe geologic age
+
+Water in Rocks
+---
+
+We find water in fractures, cracks, brittle deformation and weaknesses in even the hardest rock. Here, water can exist and flow. The rock can also dissolve into a solution, allowing caves and paths underground where water can be distributed
+
+Historical Lake Level
+---
+
+Lake levels have clearly visible highs and lows when their shoreline height is graphed over many decades.
+
+We can dig deep into the earth to find clues for historical water levels from the **vertical stratigraphy**. However, digging deep may be costly. We can also inspect **lateral chronosequences**. These are bumps in the shoreline/landscape that mark historical levels of shorelines. This data can be extrapolated for thousands of years.
+
+Paleo-hydrographs
+---
+
+Graphs that measure the distance from the modern (current) shoreline versus the elevation of lateral chronosequences.
+
+Running Water
+---
+
+Flowing water is one of the greatest contributors to erosion. Earth is the only planet with flowing water.
+
+**Vesicles**: tiny holes capable of storing water.
+
+Permeable body of rock, sediment or soil that transmits groundwater readily: **aquifers**. The **water table** is the surface. It is used for domestic, agricultural, and industrial needs. Aquifers can be unconfined or confined.
+
+Groundwater Flow Systems
+---
+
+**Rechargers**: entry points for water in the landscape. This usually happens in high altitudes (i.e. hills) with percolators and permeable ground.
+
+**Dischargers**: exit points for water in the landscape. This typically happens where there are valleys in the earth where water can pool.
+
+These areas are determined through the water table and land surface.
+
+Water in the aquifer moves very slowly.

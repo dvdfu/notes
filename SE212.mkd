@@ -1,0 +1,305 @@
+Module 1: Introduction
+===
+
+This course is about **logic** and **sets**. We study the use of logic for:
+
+* **Specification**: the behaviour of programs. What is it supposed to do?
+* **Correctness**: whether or not the program follows its intended behaviour
+
+We can verify a program's correctness through inspection and testing. There is a more formalized process called **formal verification (FV)**: checking the correctness of a program for *all possible* inputs.
+
+Logical Arguments
+---
+
+Arguments have a structure. **Premises** are given facts. **Conclusions** are logically deduced from the premises. The following two examples have identical argument structures, but use different sentence fragments.
+
+Letter | Example 1 | Example 2
+---|---|---
+| If the train arrives late and there are no taxis at the station, then John is late for his meeting. John is not late for his meeting. The train did arrive late. Therefore, there were taxis at the station. | If it is raining and Jane does not have her umbrella with her, then she will get wet. Jane is not wet. It is raining. Therefore, Jane has her umbrella with her.
+`p` | the train is late | it is raining
+`q` | there are taxis at the station | Jane has her umbrella with her
+`r` | John is late for his meeting | Jane gets wet
+
+If `p` and not `q` then `r`. Not `r`. `p`. Therefore, `q`.
+
+Logical Reasoning
+---
+
+Logic provides a precise way to express a language. Logic consists of:
+
+* **Syntax**: the definition of an acceptable sentence in a given language
+* **Semantics**: the meaning behind the symbols and sentences in the language
+* **Proof theory**: how valid proofs are constructed
+
+Logic is concerned with the structure of an argument. We use symbols to represent sentences in the syntax. It is sometimes called **symbolic logic**.
+
+Any sentence with a definitive true or false value is known as a **prime proposition**. Any given **Boolean valuation** evaluates the meanings of every variable in the proposition.
+
+A formula is **satisfiable** if there is a Boolean valuation such that the prime proposition evaluates to true.
+
+A formula is a **tautology** if all Boolean valuations are valid.
+
+A formula is a **contradiction** if all Boolean valuations are invalid.
+
+A formula is a **contingent** if it is neither a tautology or a contradiction.
+
+A collection of formulae is **consistent** if there is a Boolean valuation that satisfies all formulae simultaneously.
+
+Module 2: Propositional Logic
+===
+
+Syntax and Semantics
+---
+
+Proof Theory
+---
+
+Truth Tables
+---
+
+Consistency
+---
+
+If there exists a boolean valuation such that a set of formulas are all true, then the set is **consistent**. Otherwise it is **inconsistent**. We can check consistency by creating a truth table for the conjunction of all formulas and finding a row that contains all T.
+
+Module 3: Predicate Logic
+===
+
+Predicates
+---
+
+A **predicate** denotes the meaning of a property of an object or the meaning of a relationship between multiple objects. Predicates can be identified by the number of arguments they take; for example:
+
+* **Unary predicate**: one argument
+* **Binary predicate**: two arguments
+* **n-ary predicate**: n arguments
+
+A **constant** refers to a specific object.
+
+>"Barbara plays the piano." &rarr; plays(Barbara, piano)
+<br>plays(x, y) is a binary predicate defined as "x plays y"
+
+Predicates have truth values that can be used anywhere a prime proposition could be used. In addition, predicate logic shared the same logical connectives as propositional logic.
+
+Quantifiers
+---
+
+We use **quantifiers** to quantify variables. Quantifiers are followed by &bull; (pronounced *such that*) and predicates.
+
+**Universal Quantification** uses the symbol &forall; to imply a predicate holds for all elements.
+
+**Existential Quantification** uses the symbol &exist; to imply a predicate holds for some (one or more) elements.
+
+>"Everyone likes Fridays" &rarr; &forall; x &bull; likes(x, Fridays)
+<br>"Someone likes Fridays" &rarr; &exist; x &bull; likes(x, Fridays)
+
+Functions
+---
+
+**Functions** return references to individual (unique) objects. Functions shorten predicate logic formulae and capture more information. Functions can be n-ary.
+
+> "Mary's father likes music" &rarr; likes(father(Mary), music)
+<br> father(x) is a function defining the (unique) father of x
+<br> likes(x, y) is a unary predicate defined as "x likes y"
+
+
+
+Module 4: Set Theory
+===
+
+Proofs in Set Theory
+---
+
+> Cars, which drive fast, are dangerous. (Cars &sube; Fast) &cap; (Cars &sube; Dangerous)
+<br>Cars that drive fast are dangerous. (Cars &cap; Fast) &sube; Dangerous
+
+The first example includes a 'which clause'; meaning is preserved when the which clause is removed.
+
+> Everyone `enrolled in CS777` is `enrolled in CS772` or `hates fruits`.
+
+Set Theory Formalization:
+
+* `inCS777`: people who are enrolled in CS777
+* `inCS772`: people who are enrolled in CS772
+* `likeFruit`: people who like fruits
+
+`inCS777` &isin; `inCS772` &cup; `likeFruit`
+
+Predicate Logic Formalization:
+
+* `inCS777(x)`: x is enrolled in CS777
+* `inCS772(x)`: x is enrolled in CS772
+* `likeFruit(x)`: x likes fruits
+
+&forall; `x` &bull; `inCS777(x)` &rarr; `inCS772(x)` &or; &not; `likeFruit(x)`
+
+> B &sube; C' &#8866; B &cap; C = &empty;
+
+1. B &sube; C' `premise`
+1. &forall; x &isin; B &rarr; x &isin; C' `by set % def`
+1. for every xg {
+	1. assume xg &sube; B &cap; C {
+		1. xg &isin; B &and; xg &isin; C `by set % intersection`
+		1. xg &isin; B &rarr; xg &isin; C' `by forall_e on 2`
+		1. xg &isin; B `by and_e on 3.1.1`
+		1. xg &isin; C `by and_e on 3.1.1`
+		1. xg &isin; C' `by imp_e on 3.1.2`
+		1. &not;(xg &isin; C) `by set % def of comp`
+		1. xg &isin; &empty; `by not_e on 3.1.4, 3.1.5`
+		}
+	1. xg &isin; B &cap; C &rarr; xg &isin; &empty; `by imp_i on 3.1.1 - 3.1.7`
+	1. assume xg &isin; &empty; {
+		1. &forall; x &bull; &not;(x &isin; &empty;) `by set`
+		1. &not;(x &isin; &empty;) `by forall_e on 3.3.1`
+		1. xg &isin; B &cap; C `by not_e on 3.3.1, 3.3.2`
+		}
+	1. xg &isin; &empty; &rarr; xg &isin; B &cap; C `by imp_i on 3.3.1 - 3.3.3`
+	1. xg &isin; B &cap; C &harr; xg &isin; &empty; `by iff
+	_i on 3.2, 3.4`
+	}
+1. &forall; x &bull; x &isin; B &cap; C &harr; x &isin; &empty; `by forall_i on 3.1 - 3.5`
+1. B &cap; C = &empty; `by set % def of equality for sets`
+
+> &forall; n &bull; P(n)
+
+P(0) `base case`
+
+&forall; n &bull; P(n) &rarr; P(n+1) `induction step`
+
+1. P(0) &rarr; P(1)
+1. P(1)
+1. P(1) &rarr; P(2)
+1. P(2)
+1. etc.
+
+> &#8872; &Sigma;(i=1 &rarr; n) 1 / i<sup>2</sup> &le; 2 - 1 / n
+
+1. &#8872; &Sigma;(i=1 &rarr; 1) 1 / i<sup>2</sup> = 1 `by arith % def`
+1. &#8872; &Sigma;(i=1 &rarr; 1) 1 / i<sup>2</sup> &le; 2 - 1 / 1 `by arith`
+
+Module 6
+===
+
+> People who own cars
+
+dom(owns)
+
+> Models of cars of people who both own and fix the same model of car
+
+ran(owns &cap; fix)
+
+> Every mechanic fixes at least one kind of car that he or she doesn’t own.
+
+dom(fix) &sube; dom(fix - owns)
+
+Derived Laws
+---
+
+For two relations S: D &harr; B and T: D &harr; B
+
+dom S &sube; D
+<br>dom(S &cup; T) == (dom S) &cup; (dom T)
+<br>dom(S &cap; T) == (dom S) &cap; (dom T)
+
+ran S &sube; B
+<br>ran(S &cup; T) == (ran S) &cup; (ran T)
+<br>ran(S &cap; T) == (ran S) &cap; (ran T)
+
+A >-|->> B
+
+* **Injective**: leading arrow; every B associates with at most one A
+* **Pipe**: non-total; 
+* **Surjective**: double trailing arrow; there is an A for all B
+* **Function**: trailing arrow; 
+
+Examples: 
+
+* IP addresses <-> Computer names
+* Moons -> Planets
+* Students <-> Courses
+* Country Capital Cities ->> Countries
+* Cars >-|-> License numbers
+
+Musical Chairs System Specification
+
+1. Types of data manipulated by the system
+	* Objects: [ Chairs, Players ]
+	* Inputs: MusicStarts | MusicStops | EliminateLoser | DeclareWinner
+1. Constants: none
+1. MusicalChairs
+	* pl in Players
+	* ch in Chairs
+	* occupied: maps Chairs -|-> Players
+	* \#pl == #ch + 1
+	* dom(occupied) &sube; ch
+	* ran(occupied( &sube; pl
+1. InitialState: &empty;
+1. Operations:
+	* asd
+	
+Schemas
+---
+
+Some operations on state elements do not change the system state. For example, we may want to query the system or handle exceptions. Rather than including a **&Delta; schema** and then writing that all the state elements don’t change, we can use a **Ξ schema**.
+
+Eliminate |
+--- |
+&Delta; MusicalChairs
+in? : Input
+out! : Player
+--- |
+in? == EliminateLoser
+out? &isin; pl - ran(occupied)
+pl' == pl - \{ out! }
+
+DeclareWinner |
+--- |
+Ξ MusicalChairs
+in? : Input
+winner! : Player
+--- |
+in? == DeclareWinner
+#pl == 1
+winner! &isin; pl
+
+Module 6: Program Correctness
+===
+
+If-Then-Else
+---
+
+```
+4. assert((B -> P1) & (!B -> P2))
+if B then {
+	5. assert((B -> P1) & (!B -> P2) & B)
+	3. assert(P1)
+	C1
+	2. assert(Q)
+} else {
+	5. assert((B -> P1) & (!B -> P2) & !B)
+	3. assert(P2)
+	C2
+	2. assert(Q)
+}
+1. assert(Q)
+```
+
+Arrays
+---
+
+```
+if (A[4] > 4) then {
+	x: = 4;
+	assert (x <= 4);
+} else {
+	x: = A[4];
+	assert (x <= 4);
+}
+assert (x <= 4);
+```
+
+Termination
+---
+
+Partial correctness proves that a program satisfies its post condition if the program terminates. We need to prove that a program terminates at all. It may not terminate if there is a non-terminating loop, recursion, etc.
+

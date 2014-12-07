@@ -1,0 +1,12 @@
+Confidence Intervals 2
+===
+
+A **treatment** is a procedure, machine, or process being compared by our experiment
+
+A **unit** is an object being studied by our experiment (e.g. a person, computer program, hardware component)
+
+A **response variable** is a variable of interest whose value we measure during our experiment (e.g. time for a user tocomplete a task, time until hardware component failure)
+
+An **explanatory variable** is a variable which influences the
+value of the response variate (e.g. age, education,
+geographic region)
