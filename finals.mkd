@@ -332,7 +332,7 @@ Page 339
 
 The **hydrologic** cycle is the unending circulation of earth's water supply. Water evaporates into the atmosphere by heat. It is moved by winds and eventually condenses into precipitation. Water re-enters the ground through **infiltration**. When the rate of infiltration exceeds the earth's ability to absorb it, known as the **infiltration capacity**, the remaining water flows over the surface in a process known as **runoff**. Water can also be absorbed by plants through **transpiration**. The combined effect of this and evaporation is **evapotranspiration**.
 
-Saturated soil can commence **sheet flow**, thin and unconfined water flowing over the ground. This can cause small currents known as **rills**, which accumulate into **streams** and then **currents**. Water in streams originates from the **headwaters** to its **mouth**, where it empties to another body of water. The water follows a well-defined **course**. Any given segment in the course is a **reach**, any loops or snakes are called **meanders**. The bottom of the stream is the **bed**, bounded on either side by a **bank**. Under flood conditions, water can submerge its banks, resulting in a **floodplain**.
+Saturated soil can commence **sheet flow**, thin and unconfined water flowing over the ground. This can cause small currents known as **rills**, which accumulate into **streams** and then **currents**. Water in streams originates from the **headwaters** to its **mouth**, where it empties to another body of water. The water follows ence **sheet flow**, thin and unconfined water flowing over the ground. This can cause small currents known as **rills**, which accumulate into **streams** and then **currents**. Water in streams originates from the **headwaters** to its **mouth**, where it empties to another body of water. The water follows a well-defined **course**. Any given segment in the course is a **reach**, any loops or snakes are called **meanders**. The bottom of the stream is the **bed**, bounded on either side by a **bank**. Under flood conditions, water can submerge its banks, resulting in a **floodplain**.
 
 Water can either flow as a **laminar flow**, parallel to the channel, or as a **turbulent flow**, where water moves erratically. Stream velocity is maximized where there is least friction, which is the centre of the stream, slightly below the surface of the water. Velocity affects a steam's ability to erode, which is directly related to its velocity. Irregularities in the water cause **rapids**. Water flow is measured by the quantity moved through a point in a given time, or its **discharge**.
 
@@ -358,6 +358,36 @@ Page 389
 
 ### Chapter 17: Glaciers and Glaciation
 
+**Glaciers** are thick ice masses formed by the accumulation, compaction, and re-crystallization of snow. Because they are agents of erosion, glaciers move.  Low total exposure to solar radiation in the poles allow them to accumulate ice and form **ice sheets**. **Continental ice sheets** are large ice sheets such as the Antarctic ice sheet, which has a thicknesses of 4300 metres and area of 13.9 million square kilometres. **Ice shelves** are large, flat masses of floating ice along portions of the Antarctic coast where glacial ice flows into bays.
+
+Small glaciers may exist in mountain areas as **valley glaciers**
+
+**Ice caps** are glacial ice radially spread on high uplands or plateaus.
+
+**Glacial troughs** are formed when **glacial erosion** causes V-shaped valleys to become smoother U-shapes.
+
+**Spurs** are triangular facets on a mountain ridge formed by erosional truncation of streams, waves, or glaciers.
+
+**Moraines** are accumulation of debris due to glacial erosion.
+
+**Medial moraines** form when lateral moraines from two coalescing alpine glaciers join.
+
+**Tills** are sediments moved by glaciers. When the till lithifies from compression it forms **tillite**. **Rock flour** is ground up rock produced by grinding glaciers. The scratches caused on bedrock this way are known as **glacial striations**.
+
+**Ice streams** are sheets of ice that flow more rapidly than surrounding ice.
+
+**Hanging valleys** are valleys suspended above and perpendicular to another due to glacial troughs.
+
+The **active layer** is the zone above permafrost. It is active because it thaws in summer and refreezes in winter.
+
+A **surge** is a rapid glacial advance, typically short lived.
+
+Glaciers accumulate more snow and ice in the **zone of accumulation**
+
+**Ablations** are loss of ice and snow from glaciers.
+
+**Crevasses** are cracks in surface of a glacier.
+
 Page 402
 
 ### Chapter 20: Mineral and Energy Resources
@@ -365,6 +395,10 @@ Page 402
 **Resources** are the endowment of materials held in a reserve that are useful to people. **Renewable resources** can be replenished over relatively short times (months to decades), such as plants, animals, trees, water, wind. **Non-renewable** resources may take millions of years to accumulate. **Reserves** are known deposits from which minerals and fuel materials can be extracted profitably. Metallic minerals that can be mined at profit are known as **ores**, while other non-metallic minerals used for industrial purposes are classified as **industrial minerals**.
 
 Characteristics of magma are responsible for mineral deposits. Through **gravitational settling**, economically important minerals are concentrated in the bottom of a magmatic body due to it settling in the early stages of crystallization. They can also be separated through non-mixing of liquid phases called **immiscibility** (e.g. water and oil).
+
+**Placers** are sources of gold, tin, platinum, diamonds, etc. caused by stream and wave movements.
+
+**Vein deposits** are sediments that occupy cracks in other rocks.
 
 Page 465
 
@@ -391,18 +425,44 @@ Consider `d x w` bit memory. It uses a `log2(d) x d` decoder to turn `log2(d)` a
 
 If the same memory chip is used with a symmetric array of bit cells, we have an array size `s = sqrt(d * w)`. It uses a `log2(s) x s` decoder to turn `log2(s)` address lines into one of `s` addresses, each holding `s` bits of data. These `s` bits represent `s / w` sets of `w-bit` data, which are selected using a `s / w : 1` mux.
 
+### Address Decomposition
+
+Consider a `b`-bit address. Suppose you use a cache with `n` blocks and blocks of size `s` bytes.
+
+* If the cache is direct mapped, it has `m = n` blocks
+* If the cache is x-way set associative, it has `m = n / x` block sets
+* If the cache is fully associative, it uses `m = 1` block
+
+Starting from the rightmost side of the `b` bits, `log2(s)` bits are used for the offset, `log2(m)` bits are used for the index, and the remaining bits are used for the tag.
+
+Example: a 16-bit address `0x6D04 = 0110 1101 0000 0100`, a `4`-way set associative cache with `1024` blocks and blocks of size `8` bytes. We use `log2(8) = 3` bits for the offset, `log2(1024/8) = log2(128) = 7` bits for the index, and the remaining 6 bits for the tag:
+
+* Offset: `100 = 0x0004`
+* Index: `0100000 = 0x0020`
+* Tag: `011011 = 0x001B`
+
 ### Cache
 ### Processor Design
+
+This table illustrates the instruction types that are associated with each stage of execution.
+
+Stage|Description|Load|Data Processing|Store|Branch
+---|---|---|---|---|---
+Instruction Fetch|recognize the instruction to execute|Yes|Yes|Yes|Yes
+Read Operands|recognize the value in any register necessary|Yes|Yes|Yes|Yes
+Use ALU|perform arithmetic computation|Yes|Yes|Yes|Yes
+Read/Write Memory|access address in main memory|Yes|**No**|Yes|**No**
+Write Register|write the value to the destination register|Yes|Yes|**No**|Yes
+
+Stage|`ADD r2, r0, r1`|LDR|STR|Branch
+---|---|---|---|---
+1: Fetch|<ul><li>`MAR_sel = PC, MAR_in`</li><li>`read`</li><li>`IR_in`</li><li>`PC_sel = inc, PC_in`</li></ul>|same|same|same
+2: Register Read|<ul><li>`rdA = 0, RA_in`</li><li>`rdB = 1, RB_in`</li></ul>|||
+3: ALU|<ul><li>`A_sel = RA`</li><li>`B_sel = RB`</li><li>`RZ_in`</li><li>`ALU_op = ADD`</li></ul>|||
+4: Memory|<ul><li>`Y_sel = RZ, RY_in`</li></ul>|||
+5: Register Write|<ul><li>`wrC = 2, wrEn`</li></ul>|||
+
 ### Pipelining
-
-Five stages of pipelining:
-
-Instruction|Description
----|---
-Fetch|recognize the instruction to execute
-Decode|recognize the value in any register necessary
-Compute|perform arithmetic computation
-Write|write the value to the destination register
 
 Arithmetic example: `ADD r3, r1, r2 ; r1 = 1, r2 = 2`
 
